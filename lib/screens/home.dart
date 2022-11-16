@@ -6,24 +6,32 @@ import 'dart:convert';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
-
+  // var processList;
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  final processList = RunningProcess.processList();
+  @override
+  var processList;
+  void initState() {
+    // addProcess();
+    super.initState();
+    // print("hello");
+    updoot();
+    setState(() {});
+    //call it over here
+  }
 
   @override
-  void initState() {
-    super.initState();
-    print("hello");
-
-    ; //call it over here
+  void updoot() async {
+    processList = await RunningProcess.processList();
   }
 
   @override
   Widget build(BuildContext context) {
+    updoot();
+    setState(() {});
     return Scaffold(
         appBar: _buidAppBar(),
         body: Stack(children: [
@@ -62,9 +70,4 @@ class _HomeState extends State<Home> {
       centerTitle: true,
     );
   }
-}
-
-void addProcess() {
-  var processes = Process.runSync('ls', ['-l']);
-  print(processes.stdout);
 }
