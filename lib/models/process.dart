@@ -50,8 +50,7 @@ class RunningProcess {
 }
 
 Future<List<List<String>>> addProcess() async {
-  //linux command to get process list along with their id and cpu usage, time of activation
-  var process = await Process.run('ps', ['-eo', 'pid,comm,%cpu,etime']);
+  var process = await Process.run('ps', ['-eo', 'pid,%cpu,etime']);
 
   var str = process.stdout;
   var lines = LineSplitter().convert(str);
@@ -61,12 +60,12 @@ Future<List<List<String>>> addProcess() async {
     var split = line.split(' ');
     //remove empty strings in split
     split.removeWhere((element) => element == '');
-    if (split.length != 4) continue;
+    if (split.length != 3) continue;
     var pid = split[0];
     var dump = await Process.run('ps', ['-p', pid, '-o', 'comm=']);
     var name = ff(dump.stdout);
-    var cpu_usage = split[2];
-    var time = split[3];
+    var cpu_usage = split[1];
+    var time = split[2];
     var temp = List<String>.empty(growable: true);
     temp.add(pid);
     temp.add(name);
