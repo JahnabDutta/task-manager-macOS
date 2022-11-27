@@ -15,53 +15,66 @@ class _HomeState extends State<Home> {
   @override
   var processList;
   void initState() {
-    // addProcess();
     super.initState();
-    // print("hello");
-    updoot();
-    setState(() {});
-    //call it over here
   }
 
   @override
   void updoot() async {
-    processList = await RunningProcess.processList();
+    var tempProcessList = await RunningProcess.processList();
+    setState(() {
+      processList = tempProcessList;
+    });
+    print(processList);
   }
 
   @override
   Widget build(BuildContext context) {
-    updoot();
-    setState(() {});
     return Scaffold(
-        appBar: _buidAppBar(),
-        body: Stack(children: [
-          Expanded(
-              child: ListView(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 15,
-                ),
-                margin: EdgeInsets.only(
-                  top: 50,
-                  bottom: 20,
-                ),
-                child: Text(
-                  'All Processes',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w500,
-                  ),
+      appBar: _buidAppBar(),
+      body: Stack(children: [
+        Expanded(
+            child: ListView(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 15,
+              ),
+              margin: EdgeInsets.only(
+                top: 50,
+                bottom: 20,
+              ),
+              child: Text(
+                'All Processes',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
-              for (RunningProcess process in processList)
+            ),
+            if (processList != null)
+              for (var process in processList)
                 ProcessItem(
                   process: process,
-                )
-            ],
-          ))
-        ]));
+                  onDeleteItem: _deleteItem,
+                ),
+          ],
+        ))
+      ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: updoot,
+        child: Icon(Icons.refresh),
+      ),
+    );
+  }
+
+  void _deleteItem(String id) {
+    //kill process with id
+    Process.killPid(int.parse(id));
+    setState(() {
+      // processList.removeWhere((process) => process.id == id);
+      updoot();
+    });
   }
 
   AppBar _buidAppBar() {
