@@ -28,7 +28,10 @@ class RunningProcess {
         time_elapsed: temp[i][3],
       ));
     }
-    res.sort((a, b) => b.cpu_usgae.compareTo(a.cpu_usgae));
+    //sort res based cpu_usage numerical value
+    res.sort((a, b) =>
+        double.parse(b.cpu_usgae).compareTo(double.parse(a.cpu_usgae)));
+    // res.sort((a, b) => b.cpu_usgae.compareTo(a.cpu_usgae));
     //return temp;
     //for (var i = 0; i < res.length; i++) {
     //  print(res[i].id);
@@ -58,8 +61,7 @@ Future<List<List<String>>> addProcess() async {
     var split = line.split(' ');
     //remove empty strings in split
     split.removeWhere((element) => element == '');
-    if(split.length != 4)
-            continue;
+    if (split.length != 4) continue;
     var pid = split[0];
     var dump = await Process.run('ps', ['-p', pid, '-o', 'comm=']);
     var name = ff(dump.stdout);
@@ -76,11 +78,12 @@ Future<List<List<String>>> addProcess() async {
   return res;
 }
 
-String ff(String a){
-        //return longest suffix without slash
-        var split = a.split('/');
-        return split[split.length-1];
+String ff(String a) {
+  //return longest suffix without slash
+  var split = a.split('/');
+  return split[split.length - 1];
 }
+
 String f(String a) {
   if (a[0] != '/') {
     return a;
