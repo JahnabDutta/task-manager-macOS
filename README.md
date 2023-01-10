@@ -5,12 +5,12 @@
 2. clone the repository using the command:
 
 ```
-git clone https://github.com/JahnabDutta/android-manager
+git clone https://github.com/JahnabDutta/task-manager-macOS
 ```
 
 3. Then enter the repository with
 ```
-cd android-manager
+cd task-manager-macOS
 ```
 4. And then run the command
 ```
