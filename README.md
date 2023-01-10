@@ -18,3 +18,5 @@ flutter run -d macos
 ```
 5. Type q in the terminal to quit.
 
+## Demo of the Application
+![](https://github.com/JahnabDutta/task-manager-macOS/blob/master/OS-Project-Demo.gif)
